@@ -1,0 +1,39 @@
+description: Example system aclpolicy
+context:
+  application: rundeck
+for:
+  resource:
+    - equals:
+        kind: system
+      allow: [read]
+  project:
+    - allow: '*'
+      match:
+        name: example
+  storage:
+    - allow: '*'
+      match:
+        path: 'keys/project/example/.*'
+by:
+  group:
+    - users
+    - buy4-role-infracore-infracompute
+
+---
+
+description: example project aclpolicy
+context:
+  project: example
+for:
+  resource:
+    - allow: '*'
+  adhoc:
+    - allow: '*'
+  job:
+    - allow: '*'
+  node:
+    - allow: '*'
+by:
+  group:
+    - users
+    - buy4-role-infracore-infracompute

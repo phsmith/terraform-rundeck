@@ -1,0 +1,9 @@
+# File: prod.yml
+
+variables:
+  environmentName: rundeck-prod
+  rundeck_hosts: rundeck01.domain,rundeck02.domain
+  rundeck_url: https://rundeck.domain.org
+  rundeck_token: $(rundeck_prod_token)
+  rundeck_hosts_user: rundeck
+  rundeck_hosts_password: $(rundeck_prod_hosts_password)
