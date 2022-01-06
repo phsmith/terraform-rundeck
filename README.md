@@ -1,7 +1,7 @@
 Terraform-Rundeck
 =================
 
-The purpose of the project is providing Rundeck as GitOps, managing projects and jobs though Terraform.
+The purpose of the project is providing Rundeck as GitOps, managing projects and jobs through Terraform.
 
 This project aims to abstract the Rundeck web user interface adding the possibility for users to create and manage projects and jobs in Rundeck with code, but It's not necessary to know how to code or understand Terraform, users only need to create a project dir and fill a Terraform vars file (tfvars) with the necessary data.
 
@@ -15,24 +15,30 @@ Project Structure
 |   |   |-- nprod.yml
 |   |   `-- prod.yml
 |   `-- azure-pipelines.yml
-|-- projects:
+|-- images
+|   |-- pipeline-flowchart.png
+|   |-- pipeline-flowchart-white.png
+|-- projects
 |   |-- example
 |   |   |-- acls
 |   |   |   `-- project_example.aclpolicy
 |   |   |-- inventory
 |   |   |   |-- ansible
 |   |   |   |   `-- hosts
-|   |   |   `-- resources.yml
+|   |   |   `-- resources.yaml
 |   |   |-- jobs
-|   |   |   |-- test2.tfvars
 |   |   |   `-- test.tfvars
 |   |   |-- playbooks
 |   |   |   `-- playbook.yml
-|   |   `-- scripts
-|   |       `-- test.sh
+|   |   |-- scripts
+|   |   |   `-- test.sh
+|   |   |-- ansible.cfg
+|   |   `-- requirements.yml
+|-- scripts
+|   |-- terraform_destroy.sh
+|   `-- terraform_plan_apply.sh
 |-- main.tf
 |-- provider.tf
-|-- README.md
 `-- variables.tf
 ```
 
@@ -46,14 +52,14 @@ Project Structure
 
 **variables.tf:** Project variables definitions
 
-To create a new project you can simple copy the `example` project and modify as needed.
+To create a new project you can simple copy files from `example` project and modify as needed.
 
 The project structure consists of:
 
  - **project directory:** The name of the directory will be the name of the project in Rundeck
  - **acls:** Rundeck project and jobs access control policy files. The `name` of the file will represents the name of the policy and must have the extension `.aclpolicy`. See more in [Rundeck ACLs Doc](https://docs.rundeck.com/docs/administration/security/authorization.html#access-control-policy-2).
  - **inventory:** Rundeck nodes definitions. The `nodes` in Rundeck represents the target hosts where the jobs will be executed. The inventory can be defined as yaml, xml or json files as specified in the [documentation](https://docs.rundeck.com/docs/administration/projects/resource-model-sources/builtin.html#resource-format-plugins). It can also be defined as Ansible inventory that could be declared in `projects/project_name/inventory/ansible` folder.
- - **jobs:** Here lives the Rundeck Jobs definitions as Terraform tfvars, generally the file name represents the job name, but It is not a rule.
+ - **jobs:** Here lives the Rundeck Jobs definitions as Terraform `tfvars` files.
  - **any**: Any other folders or files listed insided the project structure will be copied to the Rundeck host so they could be referenced with the path `/projects/project_name/....`. Example: `/projects/example/playbooks/test.yml`.
 
 Create Jobs
