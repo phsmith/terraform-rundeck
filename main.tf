@@ -45,6 +45,9 @@ resource "rundeck_job" "job_workflow" {
   schedule                    = var.job_schedule
   allow_concurrent_executions = var.job_allow_concurrent_executions
   preserve_options_order      = var.job_preserve_options_order
+  continue_next_node_on_error = var.job_workflow_continue_next_node_on_error
+  command_ordering_strategy   = var.job_workflow_strategy
+  max_thread_count            = var.job_workflow_max_thread_count
 
   dynamic "option" {
     for_each = local.job_options
@@ -103,6 +106,26 @@ resource "rundeck_job" "job_workflow" {
     content {
       step_plugin {
         type   = "com.batix.rundeck.plugins.AnsiblePlaybookWorkflowStep"
+        config = command.value
+      }
+    }
+  }
+
+    dynamic "command" {
+    for_each = local.job_workflow_node_ansible_inline
+    content {
+      step_plugin {
+        type   = "com.batix.rundeck.plugins.AnsiblePlaybookInlineWorkflowNodeStep"
+        config = command.value
+      }
+    }
+  }
+
+  dynamic "command" {
+    for_each = local.job_workflow_node_ansible_playbook
+    content {
+      node_step_plugin {
+        type   = "com.batix.rundeck.plugins.AnsiblePlaybookWorflowNodeStep"
         config = command.value
       }
     }
