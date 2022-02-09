@@ -1,3 +1,8 @@
 #!/bin/bash
 
-echo 'Script file executed successfully!'
+echo """
+NAME: $RD_OPTION_NAME
+E-MAIL: $RD_OPTION_EMAIL
+PREFER FOOD FROM: $RD_OPTION_PREFER_FOOD_FROM
+PREFERED FOOD: $RD_OPTION_PREFERED_FOOD
+"""

@@ -20,7 +20,7 @@ git_diff=`git diff --name-status HEAD~1..HEAD | sort -u`
 
 echo "$git_diff" \
 | grep -Ev "(/jobs/.*.tfvars$|acls/.*.aclpolicy)" \
-| awk '/projects/ {print $1"\t"$2"\t"$NF}' \
+| awk '/projects/ {gsub(/\s+/, ""); print $1"\t"$2"\t"$NF}' \
 | sed -r 's@(^[ADRM])[0-9]+?\s+(\bprojects/[a-zA-Z0-9_-]+\b).+(\bprojects/[a-zA-Z0-9_-]+\b).+@\1 \2 \3@g' \
 | uniq \
 | while read status changed_projects
@@ -29,7 +29,7 @@ do
     project_name=`awk '{print $NF}' <<<$changed_projects | cut -d'/' -f2`
 
     # Migrate terraform state to the new workspace if renames ocurred
-    if [[ $status =~ ^R ]]; then
+    if [[ $status =~ ^R && "$project_name" != "$old_project_name" ]]; then
         old_tfstate="/tmp/${old_project_name}.tfstate"
         terraform workspace select $old_project_name 2>/dev/null || continue
         echo -e "- Migrating state from workspace ${old_project_name} to ${project_name}...\n"

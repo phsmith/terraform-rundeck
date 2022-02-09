@@ -95,13 +95,7 @@ variable "job_global_log_filter" {
     description = "Job global log filter expression"
     type = list(object({
         type   = string
-        config = object({
-            name              = optional(string)
-            regex             = string
-            logData           = optional(bool)
-            hideOutput        = optional(bool)
-            invalidKeyPattern = optional(string)
-        })
+        config = map(string)
     }))
     default = []
 }
@@ -145,6 +139,7 @@ variable "job_workflow_ansible_inline" {
         ansible-extra-vars         = optional(string)
         ansible-extra-param        = optional(string)
         ansible-disable-limit      = optional(bool)
+        ansible-base-dir-path      = optional(string)
         ansible-vault-storage-path = optional(string)
     }))
     default = []
@@ -161,6 +156,46 @@ variable "job_workflow_ansible_playbook" {
         ansible-vault-storage-path = optional(string)
     }))
     default = []
+}
+
+variable "job_workflow_node_ansible_inline" {
+    description = "Job workflow Ansible inline"
+    type = list(object({
+        ansible-playbook-inline    = string
+        ansible-extra-vars         = optional(string)
+        ansible-extra-param        = optional(string)
+        ansible-disable-limit      = optional(bool)
+        ansible-base-dir-path      = optional(string)
+        ansible-vault-storage-path = optional(string)
+    }))
+    default = []
+}
+
+variable "job_workflow_node_ansible_playbook" {
+    description = "Job workflow Ansible playbook"
+    type = list(object({
+        ansible-playbook           = string
+        ansible-extra-vars         = optional(string)
+        ansible-extra-param        = optional(string)
+        ansible-base-dir-path      = optional(string)
+        ansible-vault-storage-path = optional(string)
+    }))
+    default = []
+}
+
+variable "job_workflow_strategy" {
+    type = string
+    default = "node-first"
+}
+
+variable "job_workflow_max_thread_count" {
+    type = number
+    default = 1
+}
+
+variable "job_workflow_continue_next_node_on_error" {
+    type = bool
+    default = false
 }
 
 variable "job_notifications_email" {
@@ -197,9 +232,16 @@ locals {
   })
   job_workflow_ansible_inline = defaults(var.job_workflow_ansible_inline, {
     ansible-disable-limit = true
+    ansible-base-dir-path = "/projects/$${job.project}"
   })
   job_workflow_ansible_playbook = defaults(var.job_workflow_ansible_playbook, {
     ansible-disable-limit = true
+    ansible-base-dir-path = "/projects/$${job.project}"
+  })
+  job_workflow_node_ansible_inline = defaults(var.job_workflow_node_ansible_inline, {
+    ansible-base-dir-path = "/projects/$${job.project}"
+  })
+  job_workflow_node_ansible_playbook = defaults(var.job_workflow_node_ansible_playbook, {
     ansible-base-dir-path = "/projects/$${job.project}"
   })
 }

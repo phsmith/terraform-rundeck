@@ -8,12 +8,30 @@ job_options = [
     {
         name = "name"
         label = "Name"
-        description = "User first name"
+        description = "Your name"
         required = true
     },
     {
-        name = "surname"
-        label = "Surname"
+        name = "email"
+        label = "E-mail"
+        description = "Your E-mail"
+    },
+    {
+        name = "prefer_food_from"
+        label = "Prefer food from"
+        value_choices = [
+            "-",
+            "Brazil",
+            "USA",
+            "Mexico"
+        ]
+        require_predefined_choice = true
+    },
+    {
+        name = "prefered_food"
+        label = "Prefered food"
+        value_choices_url = "file:/projects/example/jobs/test/options/region_foods/$${option.prefer_food_from.value}.json"
+        require_predefined_choice = true
     }
 ]
 
