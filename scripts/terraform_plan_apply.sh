@@ -108,6 +108,7 @@ do
         old_workspace="${project_name}_${old_job_name}"
         workspace="${project_name}_${job_name}"
         terraform workspace select $old_workspace 2>/dev/null  || continue
+
         echo -e "- Migrating state from workspace ${old_workspace} to ${workspace}...\n"
         terraform state pull > $old_tfstate
         terraform workspace new $workspace 2> /dev/null || true
@@ -120,12 +121,7 @@ do
     if [[ $status =~ [DR] && $plan_or_apply == "apply" ]]; then
         workspace="${project_name}_${old_job_name}"
 
-        if [[ "$old_job_name" == "$job_name" ]]; then
-            terraform workspace select $workspace || true
-            echo -e "- Destroying workspace ${old_workspace}...\n"
-            terraform destroy $terraform_default_options
-        fi
-
+        echo -e "- Destroying workspace ${old_workspace}...\n"
         terraform workspace select default
         terraform workspace delete -force $workspace || true
     fi
