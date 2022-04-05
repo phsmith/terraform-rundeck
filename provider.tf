@@ -1,11 +1,11 @@
 terraform {
   backend "local" {
-    path = "/var/lib/rundeck/logs/terraform.tfstate.d/rundeck/terraform.tfstate"
+    path          = "/var/lib/rundeck/logs/terraform.tfstate.d/rundeck/terraform.tfstate"
     workspace_dir = "/var/lib/rundeck/logs/terraform.tfstate.d/rundeck"
   }
   required_providers {
     rundeck = {
-      source = "rundeck/rundeck"
+      source  = "rundeck/rundeck"
       version = "0.4.3"
     }
   }

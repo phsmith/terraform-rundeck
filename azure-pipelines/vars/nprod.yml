@@ -1,8 +1,9 @@
 # File: prod.yml
 
 variables:
-  environmentName: rundeck-staging
-  rundeck_hosts: rundeck01.local
+  az_devops_environment: staging-rundeck
+  environment: staging
+  rundeck_hosts: rundeck-staging-01.local
   rundeck_url: https://rundeck.staging.org
   rundeck_token: $(rundeck_staging_token)
   rundeck_hosts_user: rundeck
