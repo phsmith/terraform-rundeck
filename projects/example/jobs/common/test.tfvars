@@ -30,7 +30,7 @@ job_options = [
     {
         name = "prefered_food"
         label = "Prefered food"
-        value_choices_url = "file:/projects/example/jobs/test/options/region_foods/$${option.prefer_food_from.value}.json"
+        value_choices_url = "file:/projects/example/jobs/common/options/region_foods/$${option.prefer_food_from.value}.json"
         require_predefined_choice = true
     }
 ]
@@ -65,7 +65,7 @@ job_workflow_ansible_inline = [
 
 job_workflow_ansible_playbook = [
     {
-        ansible-playbook = "./playbooks/playbook.yml"
+        ansible-playbook = "/projects/example/playbooks/playbook.yml"
     }
 ]
 

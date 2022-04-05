@@ -26,7 +26,7 @@ stages:
   - deployment: RundeckProjectsJobs
     displayName: Rundeck Projects & Jobs
     environment:
-      name: $(environmentName)
+      name: $(az_devops_environment)
       resourceType: virtualMachine
       tags: primary
     strategy:
@@ -46,7 +46,7 @@ stages:
             displayName: Terraform Plan
             inputs:
               filePath: 'scripts/terraform_plan_apply.sh'
-              arguments: 'plan'
+              arguments: 'plan $(environment)'
               bashEnvValue: '/etc/profile'
             env:
               TF_IN_AUTOMATION: true
@@ -91,7 +91,7 @@ stages:
   - deployment: RundeckAnsibleRequirements
     displayName: Rundeck Ansible Requirements
     environment:
-      name: $(environmentName)
+      name: $(az_devops_environment)
       resourceType: virtualMachine
     strategy:
       runOnce:
@@ -108,7 +108,7 @@ stages:
   - deployment: RundeckProjectsJobs
     displayName: Rundeck Projects & Jobs
     environment:
-      name: $(environmentName)
+      name: $(az_devops_environment)
       resourceType: virtualMachine
       tags: primary
     strategy:
@@ -120,7 +120,7 @@ stages:
             displayName: Terraform Apply
             inputs:
               filePath: 'scripts/terraform_plan_apply.sh'
-              arguments: 'apply'
+              arguments: 'apply $(environment)'
               bashEnvValue: '/etc/profile'
             env:
               TF_IN_AUTOMATION: true

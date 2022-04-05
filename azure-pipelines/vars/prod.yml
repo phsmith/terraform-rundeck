@@ -1,8 +1,9 @@
 # File: prod.yml
 
 variables:
-  environmentName: rundeck-prod
-  rundeck_hosts: rundeck01.domain,rundeck02.domain
+  az_devops_environment: prod-rundeck
+  environment: prod
+  rundeck_hosts: rundeck-01.domain,rundeck-02.domain
   rundeck_url: https://rundeck.domain.org
   rundeck_token: $(rundeck_prod_token)
   rundeck_hosts_user: rundeck
